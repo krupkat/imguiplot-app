@@ -7,7 +7,8 @@ namespace imguiplot {
 template <typename TBackend>
 class App {
  public:
-  App(typename TBackend::OptionsType options) : backend_(std::move(options)) {}
+  explicit App(typename TBackend::OptionsType options)
+      : backend_(std::move(options)) {}
 
   template <typename TFunction>
   int Run(TFunction render_function) {

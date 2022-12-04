@@ -3,24 +3,22 @@
 #include <array>
 #include <string>
 
-namespace imguiplot {
+namespace imguiplot::options {
 
-namespace options {
+namespace defaults {
 
-namespace {
-const int kDefaultWindowWidth = 1280;
-const int kDefaultWindowHeight = 720;
-const char* const kDefaultWindowTitle = "Simple (ImGui + ImPlot) template";
-const std::array<int, 4> kDefaultBgColor{114, 140, 165, 255};
-}  // namespace
+constexpr int kWindowWidth = 1280;
+constexpr int kWindowHeight = 720;
+const char* const kWindowTitle = "Simple (ImGui + ImPlot) template";
+const std::array<int, 4> kBgColor{114, 140, 165, 255};
+
+}  // namespace defaults
 
 struct Generic {
-  int window_width = kDefaultWindowWidth;
-  int window_height = kDefaultWindowHeight;
-  std::string window_title = kDefaultWindowTitle;
-  std::array<int, 4> bg_color = kDefaultBgColor;
+  int window_width = defaults::kWindowWidth;
+  int window_height = defaults::kWindowHeight;
+  std::string window_title = defaults::kWindowTitle;
+  std::array<int, 4> bg_color = defaults::kBgColor;
 };
 
-}  // namespace options
-
-}  // namespace imguiplot
+}  // namespace imguiplot::options

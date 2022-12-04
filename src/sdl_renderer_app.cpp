@@ -16,8 +16,8 @@ bool SdlRendererBackend::Init() {
     return false;
   }
 
-  SDL_WindowFlags window_flags =
-      (SDL_WindowFlags)(SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
+  auto window_flags = static_cast<SDL_WindowFlags>(SDL_WINDOW_RESIZABLE |
+                                                   SDL_WINDOW_ALLOW_HIGHDPI);
   window_ =
       SDL_CreateWindow(options_.window_title.c_str(), SDL_WINDOWPOS_CENTERED,
                        SDL_WINDOWPOS_CENTERED, options_.window_width,
@@ -55,10 +55,10 @@ SdlRendererBackend::~SdlRendererBackend() {
     ImGui::DestroyContext();
   }
 
-  if (renderer_) {
+  if (renderer_ != nullptr) {
     SDL_DestroyRenderer(renderer_);
   }
-  if (window_) {
+  if (window_ != nullptr) {
     SDL_DestroyWindow(window_);
   }
   SDL_Quit();
@@ -67,7 +67,7 @@ SdlRendererBackend::~SdlRendererBackend() {
 bool SdlRendererBackend::IsRunning() {
   bool running = true;
   SDL_Event event;
-  while (SDL_PollEvent(&event)) {
+  while (SDL_PollEvent(&event) != 0) {
     ImGui_ImplSDL2_ProcessEvent(&event);
     if (event.type == SDL_QUIT) {
       running = false;
@@ -81,6 +81,7 @@ bool SdlRendererBackend::IsRunning() {
   return running;
 }
 
+// NOLINTNEXTLINE(readability-convert-member-functions-to-static)
 void SdlRendererBackend::NewFrame() {
   ImGui_ImplSDLRenderer_NewFrame();
   ImGui_ImplSDL2_NewFrame();

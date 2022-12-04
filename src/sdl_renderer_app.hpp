@@ -17,7 +17,8 @@ class SdlRendererBackend {
  public:
   using OptionsType = options::Generic;
 
-  SdlRendererBackend(OptionsType options) : options_(std::move(options)) {}
+  explicit SdlRendererBackend(OptionsType options)
+      : options_(std::move(options)) {}
   ~SdlRendererBackend();
 
   // Disable copy due to owned resources:
