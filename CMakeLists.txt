@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(implot-template)
+project(imguiplot-template)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 set(IMGUI_SOURCES 
     "external/imgui/imgui.cpp"
@@ -22,19 +22,21 @@ set(IMPLOT_SOURCES
 
 find_package(SDL2 REQUIRED)
 
-add_executable(implot-template-app
-    src/main.cpp
+add_executable(imguiplot-template-app
+    src/sdl_renderer_app.cpp
+    examples/demo.cpp
     ${IMGUI_SOURCES}
     ${IMPLOT_SOURCES}
 )
 
-target_include_directories(implot-template-app PRIVATE 
+target_include_directories(imguiplot-template-app PRIVATE 
     "external/imgui" 
     "external/imgui/backends"
     "external/implot"
+    "src"
 )
 
-target_link_libraries(implot-template-app
+target_link_libraries(imguiplot-template-app
   SDL2::SDL2
   SDL2::SDL2main
 )
