@@ -1,3 +1,5 @@
+// adapted from imgui/examples/example_sdl_sdlrenderer/main.cpp
+
 #include "sdl_renderer_app.hpp"
 
 #include <cstdio>
