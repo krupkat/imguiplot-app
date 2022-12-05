@@ -6,7 +6,7 @@
 #include <GLFW/glfw3.h>
 
 #include "app_base.hpp"
-#include "options.h"
+#include "options.hpp"
 
 namespace imguiplot {
 

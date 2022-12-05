@@ -20,7 +20,7 @@ set(IMPLOT_SOURCES
 )
 
 set(FILES_TO_COPY
-  "${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/misc/fonts/Cousine-Regular.ttf"
+  "${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/misc/fonts/ProggyClean.ttf"
 )
 
 # SDL example
@@ -58,8 +58,9 @@ endif()
 # GLFW example
 
 find_package(glfw3 QUIET)
+find_package(OpenGL QUIET)
 
-if (glfw3_FOUND)
+if (glfw3_FOUND AND OpenGL_FOUND)
   add_executable(imguiplot-glfw-app
     src/glfw_opengl3_app.cpp
     examples/glfw_demo.cpp
@@ -80,7 +81,7 @@ if (glfw3_FOUND)
 
   target_link_libraries(imguiplot-glfw-app
     glfw
-    opengl32
+    OpenGL::GL
   )
 
   copy_runtime_dlls(imguiplot-glfw-app)
