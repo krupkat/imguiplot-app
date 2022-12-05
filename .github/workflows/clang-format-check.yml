@@ -1,0 +1,23 @@
+name: Formatting
+
+on:
+  push:
+    branches: [ "main" ]
+    paths: 
+      - "src/**"
+      - "examples/**"
+      - "misc/scripts/format.sh"
+      - ".clang-format"
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  clang-format-check:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Run clang-format
+      run: |
+        ./misc/scripts/format.sh
+        git diff --exit-code
