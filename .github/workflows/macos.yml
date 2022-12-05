@@ -1,0 +1,28 @@
+name: MacOS
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build-macos-12:
+    runs-on: macos-12
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+    
+    - name: Install prerequisites
+      run: brew install sdl2 glfw
+
+    - name: Configure CMake
+      run: cmake -B build -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+
+    - name: Build
+      run: cmake --build build -j $(nproc)
