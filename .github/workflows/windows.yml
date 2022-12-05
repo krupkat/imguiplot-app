@@ -1,0 +1,65 @@
+name: Windows
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  BUILD_TYPE: Release
+  SDL_VERSION: "release-2.26.1"
+  GLFW_VERSION: "3.3.8"
+  GENERATOR: "Ninja Multi-Config"
+
+jobs:
+  build-windows-latest:
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+
+    - uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Cache SDL
+      uses: actions/cache@v3
+      id: cache-sdl
+      with:
+        path: sdl/install
+        key: ${{runner.os}}-sdl-${{env.SDL_VERSION}}-${{env.BUILD_TYPE}}
+
+    - name: Install SDL
+      if: steps.cache-sdl.outputs.cache-hit != 'true'
+      run: |
+        git clone https://github.com/libsdl-org/SDL.git --depth 1 --branch $env:SDL_VERSION
+        cd sdl
+        cmake -B build -G "$env:GENERATOR" -DCMAKE_INSTALL_PREFIX=install
+        cmake --build build --target install --config $env:BUILD_TYPE
+        cd ..
+
+    - name: Cache Glfw
+      uses: actions/cache@v3
+      id: cache-glfw
+      with:
+        path: glfw/install
+        key: ${{runner.os}}-glfw-${{env.GLFW_VERSION}}-${{env.BUILD_TYPE}}
+
+    - name: Install Glfw
+      if: steps.cache-glfw.outputs.cache-hit != 'true'
+      run: |
+        git clone https://github.com/glfw/glfw.git --depth 1 --branch $env:GLFW_VERSION
+        cd glfw
+        cmake -B build -G "$env:GENERATOR" -DCMAKE_INSTALL_PREFIX=install
+        cmake --build build --target install --config $env:BUILD_TYPE
+        cd ..
+
+    - name: Configure CMake
+      run: |
+        cmake -B build -G "$env:GENERATOR" `
+          -DSDL2_DIR="sdl/install/cmake" `
+          -Dglfw3_DIR="glfw/install/lib/cmake/glfw3"
+
+    - name: Build
+      run: cmake --build build --config $env:BUILD_TYPE
