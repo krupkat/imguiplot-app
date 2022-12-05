@@ -3,7 +3,7 @@
 #include "glfw_opengl3_app.hpp"
 
 #include <algorithm>
-#include <cstdio>
+#include <iostream>
 
 #include <GLFW/glfw3.h>
 #include <imgui.h>
@@ -15,7 +15,7 @@ namespace imguiplot {
 
 namespace {
 void GlfwErrorCallback(int error, const char* description) {
-  fprintf(stderr, "Glfw Error %d: %s\n", error, description);
+  std::cerr << "Glfw Error " << error << ": " << description << std::endl;
 }
 
 constexpr int kColorMaxValue = 255.0f;
@@ -33,6 +33,7 @@ std::array<float, 4> ToFloat(const std::array<int, 4>& clear_color,
 bool GlfwOpenGL3Backend::Init() {
   glfwSetErrorCallback(GlfwErrorCallback);
   if (glfwInit() == GLFW_FALSE) {
+    std::cerr << "Failed to initialize GLFW" << std::endl;
     return false;
   }
 
@@ -44,6 +45,7 @@ bool GlfwOpenGL3Backend::Init() {
   window_ = glfwCreateWindow(options_.window_width, options_.window_height,
                              options_.window_title.c_str(), nullptr, nullptr);
   if (window_ == nullptr) {
+    std::cerr << "Failed to create GLFW window" << std::endl;
     return false;
   }
 
@@ -56,6 +58,16 @@ bool GlfwOpenGL3Backend::Init() {
 
   ImGui_ImplGlfw_InitForOpenGL(window_, true);
   ImGui_ImplOpenGL3_Init();
+
+  ImGuiIO& imgui_io = ImGui::GetIO();
+  if (imgui_io.Fonts->AddFontFromFileTTF(
+          options_.font_path.c_str(),
+          options_.font_size * options_.gui_scale) == nullptr) {
+    std::cerr << "Error loading font " << options_.font_path << std::endl;
+    return false;
+  }
+
+  ImGui::GetStyle().ScaleAllSizes(options_.gui_scale);
 
   bg_color_ = ToFloat(options_.bg_color);
 

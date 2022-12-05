@@ -2,7 +2,7 @@
 
 #include "sdl_renderer_app.hpp"
 
-#include <cstdio>
+#include <iostream>
 
 #include <imgui.h>
 #include <imgui_impl_sdl.h>
@@ -14,7 +14,7 @@ namespace imguiplot {
 
 bool SdlRendererBackend::Init() {
   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER) != 0) {
-    printf("Error: %s\n", SDL_GetError());
+    std::cerr << "Failed to initialize SDL: " << SDL_GetError() << std::endl;
     return false;
   }
 
@@ -43,6 +43,16 @@ bool SdlRendererBackend::Init() {
 
   ImGui_ImplSDL2_InitForSDLRenderer(window_, renderer_);
   ImGui_ImplSDLRenderer_Init(renderer_);
+
+  ImGuiIO& imgui_io = ImGui::GetIO();
+  if (imgui_io.Fonts->AddFontFromFileTTF(
+          options_.font_path.c_str(),
+          options_.font_size * options_.gui_scale) == nullptr) {
+    SDL_Log("Error loading font %s!", options_.font_path.c_str());
+    return false;
+  }
+
+  ImGui::GetStyle().ScaleAllSizes(options_.gui_scale);
 
   init_success_ = true;
   return true;
