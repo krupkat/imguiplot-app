@@ -4,9 +4,9 @@
 [![Formatting](https://github.com/krupkat/imguiplot-app/actions/workflows/clang-format-check.yml/badge.svg)](https://github.com/krupkat/imguiplot-app/actions/workflows/clang-format-check.yml)
 [![Static analysis](https://github.com/krupkat/imguiplot-app/actions/workflows/clang-tidy-check.yml/badge.svg)](https://github.com/krupkat/imguiplot-app/actions/workflows/clang-tidy-check.yml)
 
-# implot-sdl-template
+# imguiplot-app
 
-Multiplatform (ImGui + ImPlot + CMake) template.
+Multiplatform (ImGui + ImPlot + CMake) application template.
 
 Quickly prototype applications with the ImGui / ImPlot libraries:
 
@@ -25,6 +25,8 @@ int main(int, char**) {
   });
 }
 ```
+
+Multiple backend support, currently implemented: SDL, GLFW.
 
 ## Build
 
