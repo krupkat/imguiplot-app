@@ -38,7 +38,7 @@ Contributions are more than welcome, feel free to open an issue. Additional [bac
 
 ## License
 
-Distributed under the GPL-3.0 license. See `LICENSE` for more information.
+Distributed under the MIT license. See `LICENSE` for more information.
 
 ## Contact
 
