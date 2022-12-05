@@ -1,0 +1,28 @@
+name: Ubuntu
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build-ubuntu-22:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        submodules: true
+    
+    - name: Install prerequisites
+      run: sudo apt-get install -y libsdl2-dev libglfw3-dev
+
+    - name: Configure CMake
+      run: cmake -B build -DCMAKE_BUILD_TYPE=$BUILD_TYPE
+
+    - name: Build
+      run: cmake --build build -j $(nproc)
