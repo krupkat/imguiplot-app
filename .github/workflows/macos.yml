@@ -22,7 +22,7 @@ jobs:
       run: brew install sdl2 glfw
 
     - name: Configure CMake
-      run: cmake -B build -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+      run: cmake -B build -DCMAKE_BUILD_TYPE=$BUILD_TYPE
 
     - name: Build
       run: cmake --build build -j $(nproc)
