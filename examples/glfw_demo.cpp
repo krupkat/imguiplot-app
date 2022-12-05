@@ -8,6 +8,10 @@ int main(int /*unused*/, char** /*unused*/) {
   imguiplot::GlfwOpenGL3App app({.window_width = 1600, .window_height = 900});
 
   return app.Run([] {
+
+
+
+    
     ImGui::ShowDemoWindow();
     ImPlot::ShowDemoWindow();
   });
