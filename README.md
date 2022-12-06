@@ -53,8 +53,8 @@ cmake_minimum_required(VERSION 3.21)
 
 project(my-imguiplot-demo)
 set(CMAKE_CXX_STANDARD 20)
-
 add_subdirectory(imguiplot-app)
+
 add_executable(my-demo demo.cpp)
 target_link_libraries(my-demo imguiplot-glfw-app imgui)
 
@@ -66,7 +66,7 @@ Your cpp file:
 
 ```cpp
 #include <imgui.h>
-#include <sdl_renderer_app.hpp>
+#include <glfw_opengl3_app.hpp>
 
 int main(int, char**) {
   imguiplot::GlfwOpenGL3App app({
