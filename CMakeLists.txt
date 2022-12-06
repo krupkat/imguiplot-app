@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.21)
 
 project(imguiplot-template)
+include(misc/cmake/utils.cmake)
 
 set(IMGUIPLOT_ROOT_PROJECT OFF)
 if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
@@ -8,6 +9,7 @@ if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
 endif ()
 
 option(IMGUIPLOT_BUILD_EXAMPLES "Build examples for imguiplot" ${IMGUIPLOT_ROOT_PROJECT})
+set(IMGUI_FONT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/misc/fonts" CACHE PATH "Path to imgui fonts")
 
 set(CMAKE_CXX_STANDARD 20)
 

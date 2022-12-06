@@ -1,8 +1,6 @@
 
-include(../misc/cmake/utils.cmake)
-
 set(FONT_FILES
-  "${CMAKE_CURRENT_SOURCE_DIR}/../external/imgui/misc/fonts/ProggyClean.ttf"
+  "${IMGUI_FONT_DIR}/ProggyClean.ttf"
 )
 
 if (TARGET imguiplot-sdl-app)
