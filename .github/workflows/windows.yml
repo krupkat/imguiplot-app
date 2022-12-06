@@ -58,8 +58,8 @@ jobs:
     - name: Configure CMake
       run: |
         cmake -B build -G "$env:GENERATOR" `
-          -DSDL2_DIR="sdl/install/cmake" `
-          -Dglfw3_DIR="glfw/install/lib/cmake/glfw3"
+          -DSDL2_DIR="../sdl/install/cmake" `
+          -Dglfw3_DIR="../glfw/install/lib/cmake/glfw3"
 
     - name: Build
       run: cmake --build build --config $env:BUILD_TYPE
