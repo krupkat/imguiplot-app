@@ -13,8 +13,7 @@ Quickly prototype applications with the ImGui / ImPlot libraries:
 ```cpp
 #include <imgui.h>
 #include <implot.h>
-
-#include "sdl_renderer_app.hpp"
+#include <sdl_renderer_app.hpp>
 
 int main(int, char**) {
   imguiplot::SdlRendererApp app({
@@ -29,11 +28,59 @@ int main(int, char**) {
 }
 ```
 
-Multiple backend support, currently implemented: SDL, GLFW.
+## Prerequisites
+
+A compiler with C++20 support and at least one of the supported backend libraries: [SDL](https://github.com/libsdl-org/SDL), [GLFW](https://github.com/glfw/glfw).
 
 ## Build
 
+### Examples
+
 Use standard CMake commands to build the demo applications. See the [workflow definitions](https://github.com/krupkat/imguiplot-app/tree/main/.github/workflows) for the exact build instructions for your OS.
+
+### Library
+
+Use this repository as a submodule / subfolder and link to the `imguiplot-backend-app` target in your CMake file.
+
+```bash
+git clone --recurse-submodules https://github.com/krupkat/imguiplot-app.git
+```
+
+Your CMake file:
+
+```cmake
+cmake_minimum_required(VERSION 3.21)
+
+project(my-imguiplot-demo)
+set(CMAKE_CXX_STANDARD 20)
+
+add_subdirectory(imguiplot-app)
+add_executable(my-demo demo.cpp)
+target_link_libraries(my-demo imguiplot-glfw-app imgui)
+
+# copy a font file next to the executable
+copy_file(my-demo "${IMGUI_FONT_DIR}/ProggyClean.ttf")
+```
+
+Your cpp file:
+
+```cpp
+#include <imgui.h>
+#include <sdl_renderer_app.hpp>
+
+int main(int, char**) {
+  imguiplot::GlfwOpenGL3App app({
+    .font_path = "ProggyClean.ttf",
+    .font_size = 24
+  });
+
+  return app.Run([] {
+    ImGui::Begin("Demo");
+    ImGui::Text("Hello, world!");
+    ImGui::End(); 
+  });
+}
+```
 
 ## Contributions
 
