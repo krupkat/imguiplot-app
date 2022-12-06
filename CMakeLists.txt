@@ -1,89 +1,45 @@
 cmake_minimum_required(VERSION 3.21)
 
 project(imguiplot-template)
-include("${CMAKE_CURRENT_SOURCE_DIR}/misc/cmake/utils.cmake")
+
+set(IMGUIPLOT_ROOT_PROJECT OFF)
+if (CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+  set(IMGUIPLOT_ROOT_PROJECT ON)
+endif ()
+
+option(IMGUIPLOT_BUILD_EXAMPLES "Build examples for imguiplot" ${IMGUIPLOT_ROOT_PROJECT})
 
 set(CMAKE_CXX_STANDARD 20)
 
+# imgui + implot libraries
+
 set(IMGUI_SOURCES 
-  "${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/imgui.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/imgui_draw.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/imgui_demo.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/imgui_tables.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/imgui_widgets.cpp"
+  external/imgui/imgui.cpp
+  external/imgui/imgui_draw.cpp
+  external/imgui/imgui_demo.cpp
+  external/imgui/imgui_tables.cpp
+  external/imgui/imgui_widgets.cpp
 )
+
+add_library(imgui STATIC ${IMGUI_SOURCES})
+target_include_directories(imgui PUBLIC external/imgui)
 
 set(IMPLOT_SOURCES
-  "${CMAKE_CURRENT_SOURCE_DIR}/external/implot/implot.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/external/implot/implot_demo.cpp"
-  "${CMAKE_CURRENT_SOURCE_DIR}/external/implot/implot_items.cpp"
+  external/implot/implot.cpp
+  external/implot/implot_demo.cpp
+  external/implot/implot_items.cpp
 )
 
-set(FILES_TO_COPY
-  "${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/misc/fonts/ProggyClean.ttf"
-)
+add_library(implot STATIC ${IMPLOT_SOURCES})
+target_include_directories(imgui PUBLIC external/implot)
+target_link_libraries(implot PUBLIC imgui)
 
-# SDL example
+# imguiplot app libraries
 
-find_package(SDL2 QUIET)
+add_subdirectory(src)
 
-if (SDL2_FOUND)
-  add_executable(imguiplot-sdl-app
-    src/sdl_renderer_app.cpp
-    examples/sdl_demo.cpp
+# examples
 
-    ${IMGUI_SOURCES}
-    ${IMPLOT_SOURCES}
-
-    "${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/backends/imgui_impl_sdl.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/backends/imgui_impl_sdlrenderer.cpp"
-  )
-
-  target_include_directories(imguiplot-sdl-app PRIVATE 
-    "${CMAKE_CURRENT_SOURCE_DIR}/external/imgui" 
-    "${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/backends"
-    "${CMAKE_CURRENT_SOURCE_DIR}/external/implot"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src"
-  )
-
-  target_link_libraries(imguiplot-sdl-app
-    SDL2::SDL2
-    SDL2::SDL2main
-  )
-
-  copy_runtime_dlls(imguiplot-sdl-app)
-  copy_file(imguiplot-sdl-app ${FILES_TO_COPY})
-endif()
-
-# GLFW example
-
-find_package(glfw3 QUIET)
-find_package(OpenGL QUIET)
-
-if (glfw3_FOUND AND OpenGL_FOUND)
-  add_executable(imguiplot-glfw-app
-    src/glfw_opengl3_app.cpp
-    examples/glfw_demo.cpp
-
-    ${IMGUI_SOURCES}
-    ${IMPLOT_SOURCES}
-
-    "${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/backends/imgui_impl_glfw.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/backends/imgui_impl_opengl3.cpp"
-  )
-
-  target_include_directories(imguiplot-glfw-app PRIVATE 
-    "${CMAKE_CURRENT_SOURCE_DIR}/external/imgui" 
-    "${CMAKE_CURRENT_SOURCE_DIR}/external/imgui/backends"
-    "${CMAKE_CURRENT_SOURCE_DIR}/external/implot"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src"
-  )
-
-  target_link_libraries(imguiplot-glfw-app
-    glfw
-    OpenGL::GL
-  )
-
-  copy_runtime_dlls(imguiplot-glfw-app)
-  copy_file(imguiplot-glfw-app ${FILES_TO_COPY})
+if(${IMGUIPLOT_BUILD_EXAMPLES})
+  add_subdirectory(examples)
 endif()
