@@ -38,7 +38,6 @@ jobs:
         run-clang-tidy-18 `pwd`/src `pwd`/examples \
           -p=build \
           -quiet \
-          -header-filter="src/[^/]+(.hpp|.h)" \
           -export-fixes=fixes.yml
 
     - name: Check clang-tidy results
