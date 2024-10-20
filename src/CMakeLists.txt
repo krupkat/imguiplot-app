@@ -6,8 +6,8 @@ find_package(SDL2 QUIET)
 if (SDL2_FOUND)
   add_library(imguiplot-sdl-app STATIC
     sdl_renderer_app.cpp
-    ../external/imgui/backends/imgui_impl_sdl.cpp
-    ../external/imgui/backends/imgui_impl_sdlrenderer.cpp
+    ../external/imgui/backends/imgui_impl_sdl2.cpp
+    ../external/imgui/backends/imgui_impl_sdlrenderer2.cpp
   )
 
   target_include_directories(imguiplot-sdl-app PUBLIC
@@ -16,7 +16,7 @@ if (SDL2_FOUND)
   )
 
   target_link_libraries(imguiplot-sdl-app PUBLIC
-    SDL2::SDL2 SDL2::SDL2main imgui implot
+    SDL2::SDL2 imgui implot
   )
 endif()
 

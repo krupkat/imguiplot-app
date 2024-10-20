@@ -5,8 +5,8 @@
 #include <iostream>
 
 #include <imgui.h>
-#include <imgui_impl_sdl.h>
-#include <imgui_impl_sdlrenderer.h>
+#include <imgui_impl_sdl2.h>
+#include <imgui_impl_sdlrenderer2.h>
 #include <implot.h>
 #include <SDL.h>
 
@@ -42,7 +42,7 @@ bool SdlRendererBackend::Init() {
   ImPlot::CreateContext();
 
   ImGui_ImplSDL2_InitForSDLRenderer(window_, renderer_);
-  ImGui_ImplSDLRenderer_Init(renderer_);
+  ImGui_ImplSDLRenderer2_Init(renderer_);
 
   ImGuiIO& imgui_io = ImGui::GetIO();
   if (imgui_io.Fonts->AddFontFromFileTTF(
@@ -60,7 +60,7 @@ bool SdlRendererBackend::Init() {
 
 SdlRendererBackend::~SdlRendererBackend() {
   if (init_success_) {
-    ImGui_ImplSDLRenderer_Shutdown();
+    ImGui_ImplSDLRenderer2_Shutdown();
     ImGui_ImplSDL2_Shutdown();
 
     ImPlot::DestroyContext();
@@ -95,7 +95,7 @@ bool SdlRendererBackend::IsRunning() {
 
 // NOLINTNEXTLINE(readability-convert-member-functions-to-static)
 void SdlRendererBackend::NewFrame() {
-  ImGui_ImplSDLRenderer_NewFrame();
+  ImGui_ImplSDLRenderer2_NewFrame();
   ImGui_ImplSDL2_NewFrame();
   ImGui::NewFrame();
 }
@@ -105,7 +105,7 @@ void SdlRendererBackend::RenderFrame() {
   SDL_SetRenderDrawColor(renderer_, options_.bg_color[0], options_.bg_color[1],
                          options_.bg_color[2], options_.bg_color[3]);
   SDL_RenderClear(renderer_);
-  ImGui_ImplSDLRenderer_RenderDrawData(ImGui::GetDrawData());
+  ImGui_ImplSDLRenderer2_RenderDrawData(ImGui::GetDrawData(), renderer_);
   SDL_RenderPresent(renderer_);
 }
 
