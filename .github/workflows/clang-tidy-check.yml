@@ -38,7 +38,8 @@ jobs:
         run-clang-tidy-18 `pwd`/src `pwd`/examples \
           -p=build \
           -quiet \
-          -export-fixes=fixes.yml
+          -export-fixes=fixes.yml \
+          -header-filter="imguiplot-app/src/[^/]+(.hpp|.h)"
 
     - name: Check clang-tidy results
       run: |
