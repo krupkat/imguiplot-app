@@ -15,8 +15,13 @@ if (SDL2_FOUND)
     ../external/imgui/backends
   )
 
+  if(NOT TARGET SDL2::SDL2main)
+  # This is a workaround for distros with missing SDL2main target
+    add_library(SDL2::SDL2main INTERFACE IMPORTED)
+  endif()
+
   target_link_libraries(imguiplot-sdl-app PUBLIC
-    SDL2::SDL2 imgui implot
+    SDL2::SDL2 SDL2::SDL2main imgui implot
   )
 endif()
 
