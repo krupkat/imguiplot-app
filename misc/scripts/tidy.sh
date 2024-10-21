@@ -1,1 +1,1 @@
-run-clang-tidy `pwd`/src `pwd`/examples -p=build -quiet -header-filter=src
+clang-tidy-18 -p=build -quiet -export-fixes=fixes.yml `find src -name *.cpp -or -name *.hpp`

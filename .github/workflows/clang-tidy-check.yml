@@ -8,6 +8,7 @@ on:
       - "examples/**"
       - "misc/cmake/**"
       - "CMakeLists.txt"
+      - "misc/scripts/tidy.sh"
       - ".clang-tidy"
   pull_request:
     branches: [ "main" ]
@@ -34,12 +35,7 @@ jobs:
           -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
     - name: Run clang-tidy
-      run: |
-        run-clang-tidy-18 `pwd`/src `pwd`/examples \
-          -p=build \
-          -quiet \
-          -export-fixes=fixes.yml \
-          -header-filter="imguiplot-app/src/[^/]+(.hpp|.h)"
+      run: ./misc/scripts/tidy.sh
 
     - name: Check clang-tidy results
       run: |
