@@ -6,7 +6,12 @@
 #include <array>
 #include <iostream>
 
+#if defined(__APPLE__)
+#include <OpenGL/gl3.h>
+#else
 #include <GL/gl.h>
+#endif
+
 #include <GLFW/glfw3.h>
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
