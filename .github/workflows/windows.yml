@@ -8,8 +8,8 @@ on:
 
 env:
   BUILD_TYPE: Release
-  SDL_VERSION: "release-2.26.1"
-  GLFW_VERSION: "3.3.8"
+  SDL_VERSION: "release-2.30.8"
+  GLFW_VERSION: "3.4"
   GENERATOR: "Ninja Multi-Config"
 
 jobs:
@@ -17,7 +17,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: true
 

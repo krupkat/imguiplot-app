@@ -10,11 +10,11 @@ env:
   BUILD_TYPE: Release
 
 jobs:
-  build-macos-12:
-    runs-on: macos-12
+  build-macos-14:
+    runs-on: macos-14
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: true
     

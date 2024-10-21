@@ -8,6 +8,7 @@ on:
       - "examples/**"
       - "misc/cmake/**"
       - "CMakeLists.txt"
+      - "misc/scripts/tidy.sh"
       - ".clang-tidy"
   pull_request:
     branches: [ "main" ]
@@ -17,9 +18,9 @@ env:
 
 jobs:
   clang-tidy-check:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         submodules: true
 
@@ -34,12 +35,7 @@ jobs:
           -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 
     - name: Run clang-tidy
-      run: |
-        run-clang-tidy `pwd`/src `pwd`/examples \
-          -p=build \
-          -quiet \
-          -header-filter=src.*.hpp \
-          -export-fixes=fixes.yml
+      run: ./misc/scripts/tidy.sh
 
     - name: Check clang-tidy results
       run: |

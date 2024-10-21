@@ -3,7 +3,14 @@
 #include "glfw_opengl3_app.hpp"
 
 #include <algorithm>
+#include <array>
 #include <iostream>
+
+#if defined(__APPLE__)
+#include <OpenGL/gl3.h>
+#else
+#include <GL/gl.h>
+#endif
 
 #include <GLFW/glfw3.h>
 #include <imgui.h>
@@ -15,7 +22,7 @@ namespace imguiplot {
 
 namespace {
 void GlfwErrorCallback(int error, const char* description) {
-  std::cerr << "Glfw Error " << error << ": " << description << std::endl;
+  std::cerr << "Glfw Error " << error << ": " << description << '\n';
 }
 
 constexpr int kColorMaxValue = 255.0f;
@@ -33,7 +40,7 @@ std::array<float, 4> ToFloat(const std::array<int, 4>& clear_color,
 bool GlfwOpenGL3Backend::Init() {
   glfwSetErrorCallback(GlfwErrorCallback);
   if (glfwInit() == GLFW_FALSE) {
-    std::cerr << "Failed to initialize GLFW" << std::endl;
+    std::cerr << "Failed to initialize GLFW" << '\n';
     return false;
   }
 
@@ -45,7 +52,7 @@ bool GlfwOpenGL3Backend::Init() {
   window_ = glfwCreateWindow(options_.window_width, options_.window_height,
                              options_.window_title.c_str(), nullptr, nullptr);
   if (window_ == nullptr) {
-    std::cerr << "Failed to create GLFW window" << std::endl;
+    std::cerr << "Failed to create GLFW window" << '\n';
     return false;
   }
 
@@ -63,7 +70,7 @@ bool GlfwOpenGL3Backend::Init() {
   if (imgui_io.Fonts->AddFontFromFileTTF(
           options_.font_path.c_str(),
           options_.font_size * options_.gui_scale) == nullptr) {
-    std::cerr << "Error loading font " << options_.font_path << std::endl;
+    std::cerr << "Error loading font " << options_.font_path << '\n';
     return false;
   }
 
@@ -91,7 +98,7 @@ GlfwOpenGL3Backend::~GlfwOpenGL3Backend() {
 }
 
 bool GlfwOpenGL3Backend::IsRunning() {
-  bool should_close = glfwWindowShouldClose(window_) != GLFW_FALSE;
+  const bool should_close = glfwWindowShouldClose(window_) != GLFW_FALSE;
   if (!should_close) {
     glfwPollEvents();
   }

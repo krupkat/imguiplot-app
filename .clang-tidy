@@ -9,7 +9,11 @@ Checks: >
   portability-*,
   readability-*
 
+HeaderFilterRegex: "imguiplot-app/src/[^/]+(.hpp|.h)"
+
 CheckOptions:
+  - key:   misc-include-cleaner.IgnoreHeaders
+    value: SDL.*;GLFW.*
   - key:   readability-identifier-naming.ClassCase
     value: CamelCase
   - key:   readability-identifier-naming.ClassMemberCase
