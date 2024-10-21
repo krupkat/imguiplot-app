@@ -5,10 +5,10 @@ pkgs.mkShell {
   nativeBuildInputs = with pkgs; [
     cmake
     ninja
+    clang-tools_18
   ];
 
   buildInputs = with pkgs; [
-    clang-tools
     SDL2
     libGL
     glfw

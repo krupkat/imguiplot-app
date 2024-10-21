@@ -2,7 +2,7 @@ BasedOnStyle: Google
 
 SortIncludes: CaseInsensitive
 IncludeCategories:
-  - Regex:           '<(imgui|implot|SDL|GLFW).*>'
+  - Regex:           '<(imgui|implot|SDL|GLFW|GL).*>'
     Priority:        2
   - Regex:           '<[[:alnum:]._]+>'
     Priority:        1
